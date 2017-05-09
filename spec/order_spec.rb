@@ -15,15 +15,32 @@ describe Order do
     end
   end
 
+  context 'adding items' do
+    it 'adds an item to the order' do
+      broadcaster_1 = Broadcaster.new(1, 'Discovery')
+
+      subject.add broadcaster_1, standard_delivery
+
+      expect(subject.items.length).to eq(1)
+    end
+  end
+
   context 'with items' do
-    it 'returns the total cost of all items' do
+    before do
       broadcaster_1 = Broadcaster.new(1, 'Viacom')
       broadcaster_2 = Broadcaster.new(2, 'Disney')
 
       subject.add broadcaster_1, standard_delivery
       subject.add broadcaster_2, express_delivery
+    end
 
+    it 'returns the total cost of all items' do
       expect(subject.total_cost).to eq(30)
     end
+
+    it 'counts the number of express deliveries' do
+      expect(subject.express_delivery_count).to eq 1
+    end
+
   end
 end

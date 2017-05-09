@@ -20,6 +20,10 @@ class Order
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
+  def express_delivery_count
+    items.select { |item| item[1].name == :express }.count
+  end
+
   def output
     [].tap do |result|
       result << "Order for #{material.identifier}:"
