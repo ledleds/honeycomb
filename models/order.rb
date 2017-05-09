@@ -5,11 +5,16 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items
+  EXPRESS_DELIVERY_DISCOUNT = 5
+  OVERALL_COST_DISCOUNT = 10 #percent
+
+
+  attr_accessor :material, :items, :discount
 
   def initialize(material)
     self.material = material
     self.items = []
+    self.discount = 0
   end
 
   def add(broadcaster, delivery)
@@ -21,7 +26,7 @@ class Order
   end
 
   def express_delivery_count
-    items.select { |item| item[1].name == :express }.count
+    items.count { |item| item[1].name == :express }
   end
 
   def output

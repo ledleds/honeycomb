@@ -13,6 +13,10 @@ describe Order do
     it 'costs nothing' do
       expect(subject.total_cost).to eq(0)
     end
+
+    it 'has a discount amount of zero' do
+      expect(subject.discount).to eq(0)
+    end
   end
 
   context 'adding items' do
@@ -42,5 +46,8 @@ describe Order do
       expect(subject.express_delivery_count).to eq 1
     end
 
+    # it 'initiates a 10% discount if total cost is over 30' do
+    #
+    # end
   end
 end
