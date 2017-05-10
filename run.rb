@@ -3,7 +3,9 @@
 require './models/broadcaster'
 require './models/delivery'
 require './models/material'
+require './models/discount'
 require './models/order'
+
 
 standard_delivery = Delivery.new(:standard, 10.0)
 express_delivery = Delivery.new(:express, 20.0)
@@ -18,15 +20,14 @@ broadcaster_7 = Broadcaster.new(7, 'Horse and Country')
 
 material = Material.new('WNP/SWCL001/010')
 
-order = Order.new(material)
+discount = Discount.new
+
+order = Order.new(material, discount)
 
 order.add broadcaster_1, standard_delivery
-order.add broadcaster_2, standard_delivery
-# order.add broadcaster_3, express_delivery
-order.add broadcaster_3, standard_delivery
+# order.add broadcaster_2, standard_delivery
+order.add broadcaster_3, express_delivery
 order.add broadcaster_7, express_delivery
-
-# should output 45
 
 print order.output
 print "\n"

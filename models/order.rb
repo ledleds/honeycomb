@@ -1,20 +1,18 @@
 class Order
-  # does this class have more than one responsibility?!
+
   COLUMNS = {
     broadcaster: 20,
     delivery: 8,
     price: 8
   }.freeze
 
-  EXPRESS_DELIVERY_DISCOUNT = 5
-  OVERALL_COST_DISCOUNT = 0.1
+  attr_accessor :material, :items, :material, :order, :discount
 
-  attr_accessor :material, :items, :discount
-
-  def initialize(material)
+  def initialize(material, discount)
     self.material = material
+    self.discount = discount
     self.items = []
-    self.discount = 0
+    self.order = []
   end
 
   def add(broadcaster, delivery)
@@ -25,53 +23,43 @@ class Order
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
 
-  def delivery_discount
-    if express_delivery_count >= 2
-      self.discount += express_delivery_count * EXPRESS_DELIVERY_DISCOUNT
-    end
-  end
-
-  def express_delivery_count
-    items.count { |item| item[1].name == :express }
-  end
-
-  def overall_cost_discount
-    if subtotal > 30
-      self.discount += percentage_calculator
-    end
-  end
-
-  def percentage_calculator
-    subtotal * OVERALL_COST_DISCOUNT
-  end
-
   def total_cost
-    delivery_discount
-    overall_cost_discount
-    return subtotal - self.discount
+    discount.delivery_discount(express_delivery_count)
+    discount.overall_cost_discount(subtotal)
+
+    return subtotal - self.discount.amount
   end
 
   def output
-    [].tap do |result|
+    order.tap do |result|
       result << "Order for #{material.identifier}:"
-
-      result << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
+      columns
       result << output_separator
-
-      items.each_with_index do |(broadcaster, delivery), index|
-        result << [
-          broadcaster.name.ljust(COLUMNS[:broadcaster]),
-          delivery.name.to_s.ljust(COLUMNS[:delivery]),
-          ("$#{delivery.price}").ljust(COLUMNS[:price])
-        ].join(' | ')
-      end
-
+      justify
       result << output_separator
       result << "Total: $#{'%.2f' % total_cost}" # move the rounding?
     end.join("\n")
   end
 
+  def justify
+    items.each_with_index do |(broadcaster, delivery), index|
+      order << [
+        broadcaster.name.ljust(COLUMNS[:broadcaster]),
+        delivery.name.to_s.ljust(COLUMNS[:delivery]),
+        ("$#{delivery.price}").ljust(COLUMNS[:price])
+      ].join(' | ')
+    end
+  end
+
   private
+
+  def express_delivery_count
+    items.count { |item| item[1].name == :express }
+  end
+
+  def columns
+    order << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
+  end
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
