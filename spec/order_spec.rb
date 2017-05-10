@@ -11,7 +11,7 @@ describe Order do
 
   context 'empty' do
     it 'costs nothing' do
-      expect(subject.total_cost).to eq(0)
+      expect(subject.subtotal).to eq(0)
     end
 
     it 'has a discount amount of zero' do
@@ -39,11 +39,18 @@ describe Order do
     end
 
     it 'returns the total cost of all items' do
-      expect(subject.total_cost).to eq(30)
+      expect(subject.subtotal).to eq(30)
     end
 
     it 'counts the number of express deliveries' do
       expect(subject.express_delivery_count).to eq 1
+    end
+
+    it 'adds amount to discount when two materials are express delivery' do
+      broadcaster_3 = Broadcaster.new(3, 'Discovery')
+      subject.add broadcaster_3, express_delivery
+      subject.delivery_discount # shouldn't be calling the method I want to test here!
+      expect(subject.discount).to eq(10)
     end
 
     # it 'initiates a 10% discount if total cost is over 30' do

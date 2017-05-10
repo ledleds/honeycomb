@@ -8,7 +8,6 @@ class Order
   EXPRESS_DELIVERY_DISCOUNT = 5
   OVERALL_COST_DISCOUNT = 10 #percent
 
-
   attr_accessor :material, :items, :discount
 
   def initialize(material)
@@ -21,8 +20,14 @@ class Order
     items << [broadcaster, delivery]
   end
 
-  def total_cost
+  def subtotal
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  end
+
+  def delivery_discount
+    if express_delivery_count >= 2
+      self.discount += express_delivery_count * EXPRESS_DELIVERY_DISCOUNT
+    end
   end
 
   def express_delivery_count
@@ -45,7 +50,7 @@ class Order
       end
 
       result << output_separator
-      result << "Total: $#{total_cost}"
+      result << "Total: $#{subtotal}"
     end.join("\n")
   end
 
