@@ -36,8 +36,18 @@ class Order
 
   def overall_cost_discount
     if subtotal > 30
-      self.discount += subtotal * OVERALL_COST_DISCOUNT
+      self.discount += percentage_calculator
     end
+  end
+
+  def percentage_calculator
+    subtotal * OVERALL_COST_DISCOUNT
+  end
+
+  def total_cost
+    delivery_discount
+    overall_cost_discount
+    return subtotal - self.discount
   end
 
   def output
@@ -56,7 +66,7 @@ class Order
       end
 
       result << output_separator
-      result << "Total: $#{subtotal}"
+      result << "Total: $#{'%.2f' % total_cost}"
     end.join("\n")
   end
 

@@ -63,5 +63,15 @@ describe Order do
       subject.overall_cost_discount
       expect(subject.discount).to eq(4)
     end
+
+    it 'returns the total cost of all items after discount' do
+      broadcaster_5 = Broadcaster.new(5, 'Channel 4')
+      broadcaster_6 = Broadcaster.new(6, 'Bike Channel')
+
+      subject.add broadcaster_5, standard_delivery
+      subject.add broadcaster_6, standard_delivery
+
+      expect(subject.total_cost).to eq(45)
+    end
   end
 end
