@@ -1,4 +1,5 @@
 class Order
+  # does this class have more than one responsibility?!
   COLUMNS = {
     broadcaster: 20,
     delivery: 8,
@@ -66,7 +67,7 @@ class Order
       end
 
       result << output_separator
-      result << "Total: $#{'%.2f' % total_cost}"
+      result << "Total: $#{'%.2f' % total_cost}" # move the rounding?
     end.join("\n")
   end
 
