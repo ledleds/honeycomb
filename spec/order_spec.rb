@@ -20,9 +20,9 @@ describe Order do
   end
 
   context 'adding items' do
-    it 'adds an item to the order' do
-      broadcaster_1 = Broadcaster.new(1, 'Discovery')
+    let(:broadcaster_1) {double(:broadcaster_1)}
 
+    it 'adds an item to the order' do
       subject.add broadcaster_1, standard_delivery
 
       expect(subject.items.length).to eq(1)
@@ -48,13 +48,20 @@ describe Order do
 
     it 'adds amount to discount when two materials are express delivery' do
       broadcaster_3 = Broadcaster.new(3, 'Discovery')
+
       subject.add broadcaster_3, express_delivery
-      subject.delivery_discount # shouldn't be calling the method I want to test here!
+
+      subject.delivery_discount
       expect(subject.discount).to eq(10)
     end
 
-    # it 'initiates a 10% discount if total cost is over 30' do
-    #
-    # end
+    it 'initiates a 10% discount if total cost is over 30' do
+      broadcaster_4 = Broadcaster.new(4, 'ITV')
+
+      subject.add broadcaster_4, standard_delivery
+
+      subject.overall_cost_discount
+      expect(subject.discount).to eq(4)
+    end
   end
 end

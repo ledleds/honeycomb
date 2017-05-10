@@ -6,7 +6,7 @@ class Order
   }.freeze
 
   EXPRESS_DELIVERY_DISCOUNT = 5
-  OVERALL_COST_DISCOUNT = 10 #percent
+  OVERALL_COST_DISCOUNT = 0.1
 
   attr_accessor :material, :items, :discount
 
@@ -32,6 +32,12 @@ class Order
 
   def express_delivery_count
     items.count { |item| item[1].name == :express }
+  end
+
+  def overall_cost_discount
+    if subtotal > 30
+      self.discount += subtotal * OVERALL_COST_DISCOUNT
+    end
   end
 
   def output
