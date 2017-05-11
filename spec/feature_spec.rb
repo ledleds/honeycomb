@@ -25,7 +25,6 @@ describe Order do
     let(:broadcaster_4) { Broadcaster.new(4, 'ITV') }
     let(:broadcaster_5) { Broadcaster.new(5, 'Channel 4') }
     let(:broadcaster_6) { Broadcaster.new(6, 'Bike Channel') }
-    # these need to be real
 
     before do
       subject.add broadcaster_1, standard_delivery

@@ -13,18 +13,18 @@ class Discount
 
   def delivery_discount(express_delivery_count)
     if express_delivery_count >= DELIVERY_DISCOUNT_MIN
-      self.amount += express_delivery_count * EXPRESS_DELIVERY_DISCOUNT
+      self.amount += calculator(express_delivery_count, EXPRESS_DELIVERY_DISCOUNT)
     end
     return self.amount
   end
 
   def overall_cost_discount(subtotal)
     if subtotal > COST_DISCOUNT_MIN
-      self.amount += percentage_calculator(subtotal)
+      self.amount += calculator(subtotal, OVERALL_COST_DISCOUNT)
     end
   end
 
-  def percentage_calculator(subtotal)
-    subtotal * OVERALL_COST_DISCOUNT
+  def calculator(amount, constant)
+    amount * constant
   end
 end

@@ -25,8 +25,8 @@ discount = Discount.new
 order = Order.new(material, discount)
 
 order.add broadcaster_1, standard_delivery
-# order.add broadcaster_2, standard_delivery
-order.add broadcaster_3, express_delivery
+order.add broadcaster_2, standard_delivery
+order.add broadcaster_3, standard_delivery
 order.add broadcaster_7, express_delivery
 
 print order.output
