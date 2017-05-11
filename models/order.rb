@@ -26,7 +26,7 @@ class Order
   def total_cost
     discount.delivery_discount(express_delivery_count)
     discount.overall_cost_discount(subtotal)
-
+    # just call on a self.discount.amount method that calls on the other two?
     return subtotal - self.discount.amount
   end
 
@@ -37,7 +37,7 @@ class Order
       result << output_separator
       justify
       result << output_separator
-      result << "Total: $#{'%.2f' % total_cost}" # move the rounding?
+      result << "Total: $#{'%.2f' % total_cost}"
     end.join("\n")
   end
 

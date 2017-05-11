@@ -2,8 +2,8 @@ require './models/order'
 
 describe Order do
   subject { Order.new(material, discount) }
-  let(:material) { double :material }
-  let(:discount) { double :discount, delivery_discount: 0, overall_cost_discount: 0, amount: 0}
+  let(:material) { double :material, identifier: 'HON/TEST001/010' }
+  let(:discount) { double :discount, delivery_discount: 0, overall_cost_discount: 0, amount: 0 }
   let(:standard_delivery) { double :standard_delivery, name: :standard, price: 10 }
   let(:express_delivery) { double :express_delivery, name: :express, price: 20 }
 
@@ -31,24 +31,30 @@ describe Order do
     end
   end
 
-  # context 'with items' do
-  #   let(:broadcaster_1) {double :broadcaster_1 }
-  #   let(:broadcaster_2) {double :broadcaster_2 }
-  #
-  #   before do
-  #     subject.add broadcaster_1, standard_delivery
-  #     subject.add broadcaster_2, express_delivery
-  #   end
-  #
-  #
-  #   it 'returns the total cost of all items' do
-  #     expect(subject.subtotal).to eq(30)
-  #   end
-  #
-  #   it 'counts the number of express deliveries' do
-  #     expect(subject.express_delivery_count).to eq 1
-  #   end
-  #
-  #
-  # end
+  context 'with items' do
+    let(:broadcaster_1) {double :broadcaster_1 }
+    let(:broadcaster_2) {double :broadcaster_2 }
+
+    before do
+      subject.add broadcaster_1, standard_delivery
+      subject.add broadcaster_2, express_delivery
+    end
+
+
+    it 'returns the subtotal cost of all items' do
+      expect(subject.subtotal).to eq(30)
+    end
+
+    it 'returns the total when discount is $4' do
+      allow(discount).to receive(:amount).and_return(4)
+      expect(subject.total_cost).to eq(26)
+    end
+  end
+
+  context 'printing order' do
+    it 'adds entire order to order array' do
+      subject.output
+      expect(subject.order.length).to eq(5)
+    end
+  end
 end
