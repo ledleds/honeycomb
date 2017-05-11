@@ -40,13 +40,13 @@ describe Order do
       subject.add broadcaster_2, express_delivery
     end
 
-
     it 'returns the subtotal cost of all items' do
       expect(subject.subtotal).to eq(30)
     end
 
     it 'returns the total when discount is $4' do
       allow(discount).to receive(:amount).and_return(4)
+
       expect(subject.total_cost).to eq(26)
     end
   end

@@ -24,9 +24,7 @@ class Order
   end
 
   def total_cost
-    discount.delivery_discount(express_delivery_count)
-    discount.overall_cost_discount(subtotal)
-    # just call on a self.discount.amount method that calls on the other two?
+    check_discount
     return subtotal - self.discount.amount
   end
 
@@ -52,6 +50,11 @@ class Order
   end
 
   private
+
+  def check_discount
+    discount.delivery_discount(express_delivery_count)
+    discount.overall_cost_discount(subtotal)
+  end
 
   def express_delivery_count
     items.count { |item| item[1].name == :express }
