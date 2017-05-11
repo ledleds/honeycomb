@@ -6,7 +6,7 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items, :material, :order, :discount
+  attr_accessor :material, :items, :order, :discount
 
   def initialize(material, discount)
     self.material = material
@@ -24,7 +24,7 @@ class Order
   end
 
   def total_cost
-    check_discount
+    check_for_discount
     return subtotal - self.discount.amount
   end
 
@@ -52,7 +52,7 @@ class Order
 
   private
 
-  def check_discount
+  def check_for_discount
     discount.delivery_discount(express_delivery_count)
     discount.overall_cost_discount(subtotal)
   end

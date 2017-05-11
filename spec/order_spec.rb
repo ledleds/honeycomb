@@ -7,7 +7,7 @@ describe Order do
   let(:standard_delivery) { double :standard_delivery, name: :standard, price: 10 }
   let(:express_delivery) { double :express_delivery, name: :express, price: 20 }
 
-  context 'empty' do
+  context 'when empty' do
     it 'has a subtotal of 0' do
       expect(subject.subtotal).to eq(0)
     end
@@ -21,7 +21,7 @@ describe Order do
     end
   end
 
-  context 'adding items' do
+  context '#add' do
     let(:broadcaster_1) {double :broadcaster_1 }
 
     it 'adds an item to the order' do
