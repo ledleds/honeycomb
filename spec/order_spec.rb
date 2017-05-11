@@ -54,7 +54,7 @@ describe Order do
   context 'printing order' do
     it 'adds entire order to order array' do
       subject.output
-      expect(subject.order.length).to eq(5)
+      expect(subject.order.length).to eq(6)
     end
   end
 end

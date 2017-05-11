@@ -36,6 +36,7 @@ class Order
       justify
       result << output_separator
       result << "Total: $#{'%.2f' % total_cost}"
+      result << "Discount applied: $#{'%.2f' % self.discount.amount}"
     end.join("\n")
   end
 
